@@ -30,13 +30,13 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
 
-    @app.route('/webhook', methods=['POST'])
+    @app.route('/webhook', methods=['GET', 'POST'])
     def webhook():
         req = request.get_json(force=True)
-        print(req)
+        # print(req)
 
         return {
-            'fulfillmentText' : 'Testing the webhook'
+            "fulfillmentText" : "Testing the webhook"
         }
 
     return app
