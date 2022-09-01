@@ -52,9 +52,6 @@ class DialogflowManager:
     except InvalidArgument:
       raise
 
-  def 
-
-
 
 class GoogleBooksManager:
   '''
