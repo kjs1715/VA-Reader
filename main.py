@@ -53,7 +53,13 @@ class DialogflowManager:
       raise
 
 
-class GoogleBooksManager:
+class BaseBookManager:
+  def __init__(self) -> None:
+    pass
+
+  
+
+class GoogleBooksManager(BaseBookManager):
   '''
     Module for Google books API
   '''
@@ -93,6 +99,7 @@ class GoogleBooksManager:
         key=self.BOOKS_API_KEY
       )
       res = requests.get(url=self.DEFAULT_API + '/' + id, params=params)
+      time.sleep(3)
       data = res.json()
       # print(data)
 
@@ -214,11 +221,30 @@ class Book:
   def get_lines(self, reader, index):
     return reader.getPage(index).extractText().split('.')
 
+
+class LibgenManager(BaseBookManager):
+  def __init__(self) -> None:
+    super().__init__()
+
+
+# test libgen
+# s = LibgenSearch()
+# results = s.search_title("Pride and Prejudice")
+# item_to_download = results[1]
+# download_links = s.resolve_download_links(item_to_download)
+# print(download_links)
+# print(download_links['GET'])
+
+# gbm = GoogleBooksManager()
+# gbm.download_file(download_links['GET'])
+
+
+
 # test books api
 # TODO: 
 
-# gbm = GoogleBooksManager()
-# gbm.download_file(gbm.get_download_url(gbm.search_by_id("_mUCAAAAYAAJ")))
+gbm = GoogleBooksManager()
+gbm.download_file(gbm.get_download_url(gbm.search_by_id("_mUCAAAAYAAJ")))
 
 
 # test pdf translator
@@ -240,14 +266,3 @@ class Book:
 # dfm = DialogflowManager()
 # dfm.request_text("read book")
 
-
-# test libgen
-s = LibgenSearch()
-results = s.search_title("Pride and Prejudice")
-item_to_download = results[1]
-download_links = s.resolve_download_links(item_to_download)
-print(download_links)
-print(download_links['GET'])
-
-gbm = GoogleBooksManager()
-gbm.download_file(download_links['GET'])
